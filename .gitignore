@@ -1,0 +1,86 @@
+#Project Supporting Directories #
+Servers/
+RemoteSystemsTempFiles/
+
+# Directories #
+build/
+/bin/
+bin/
+target/
+ 
+*.class
+ 
+# Package Files #
+#*.jar
+*.war
+*.ear
+*.db
+ 
+######################
+# Windows
+######################
+ 
+# Windows image file caches
+Thumbs.db 
+ 
+# Folder config file
+Desktop.ini
+ 
+######################
+# OSX
+######################
+ 
+.DS_Store
+.svn
+ 
+# Thumbnails
+._*
+ 
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+ 
+ 
+######################
+# Eclipse
+######################
+ 
+*.pydevproject
+.project
+.metadata
+.metadata/
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+/src/main/resources/rebel.xml
+# External tool builders
+.externalToolBuilders/
+ 
+# Locally stored "Eclipse launch configurations"
+*.launch
+ 
+# CDT-specific
+.cproject
+ 
+# PDT-specific
+.buildpath
+/*/build/
+
+######################
+# Front-end
+######################
+
+# Node modules
+node_modules/
+
+# Bower components
+bower_components/
+
