@@ -1,5 +1,7 @@
 package edu.ecu.seng6240.team6.models;
 
+import com.google.gson.JsonObject;
+
 
 public class User {
 	public static final String STUDENT_ROLE = "User";
@@ -12,6 +14,14 @@ public class User {
 	private String role = null;
 	public User(){
 		
+	}
+	
+	public User(JsonObject jsonObject)
+	{
+		this.id = jsonObject.has("id")?jsonObject.get("id").getAsInt():-1;
+		this.lastName = jsonObject.has("lastName")?jsonObject.get("lastName").getAsString():null;
+		this.firstName = jsonObject.has("firstName")?jsonObject.get("firstName").getAsString():null;
+		this.userName = jsonObject.has("username")?jsonObject.get("username").getAsString():null;
 	}
 	
 	public int getId() {

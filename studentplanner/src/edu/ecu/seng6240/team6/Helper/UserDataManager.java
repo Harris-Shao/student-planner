@@ -10,6 +10,8 @@ import edu.ecu.seng6240.team6.models.Student;
 public class UserDataManager {
 
 	private static final String SELECT_STUDENT_BY_USER_NAME ="SELECT * FROM Student WHERE UserName = %s;";
+	private static final String DELETE_STUDENT_BY_ID = "DELETE FROM Student WHERE ID = %s";
+	private static final String INSERT_STUDENT = "INSERT INTO Student (LastName, FirstName, Username)  VALUES (?,?,?);";
 	
 	public static Student getStudentByUserName(String username){
 		Student student = null;
@@ -42,5 +44,67 @@ public class UserDataManager {
 				}			
 		}
 		return student;		
+	}
+
+	public static boolean deleteStudent(int id) {
+		String deleteString = String.format(DELETE_STUDENT_BY_ID, Integer.toString(id));
+		Connection con = null;
+		PreparedStatement ps = null;
+		boolean success = false;
+		try {
+			con = DBConnectionManager.getConnection();
+			ps = con.prepareStatement(deleteString);
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 1) {
+				success = true;
+				con.commit();
+			}
+		} catch (SQLException e) {
+			
+		}
+		finally{
+				try {
+					if (ps != null) ps.close();
+					if (con != null) ps.close();
+				} catch (SQLException e) {
+					
+				}			
+		}
+		return success;
+	}
+
+	public static boolean insert(Student student) {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		boolean success = false;
+		try {
+			con = DBConnectionManager.getConnection();
+			ps = con.prepareStatement(INSERT_STUDENT);
+			ps.setString(1, student.getLastName());
+			ps.setString(2, student.getFirstName());
+			ps.setString(3, student.getUserName());
+			int rowCount = ps.executeUpdate();
+			if (rowCount == 1) {
+				success = true;
+				con.commit();
+			}
+		} catch (SQLException e) {
+			
+		}
+		finally{
+				try {
+					if (ps != null) ps.close();
+					if (con != null) ps.close();
+				} catch (SQLException e) {
+					
+				}			
+		}
+		return success;
+	}
+
+	public static boolean update(Student student) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
