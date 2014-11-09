@@ -37,4 +37,5 @@ public class SessionManager {
 		if(this.session.getAttribute("User") != null) return (User)this.session.getAttribute("User");
 		return null;
 	}
+	
 }
