@@ -46,6 +46,7 @@ public class UserManagementServlet extends HttpServlet {
 			String dataString = RequestHelper.getDataString(request);
 			if (dataString != null) {
 				student = new Gson().fromJson(dataString, Student.class);
+				boolean updateSuccess = UserDataManager.update(student);
 			} else {
 
 			}						
