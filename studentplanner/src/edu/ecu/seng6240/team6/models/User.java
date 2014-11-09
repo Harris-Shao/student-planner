@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 
 
 public class User {
-	public static final String STUDENT_ROLE = "User";
+	public static final String STUDENT_ROLE = "Student";
 	public static final String ADIN_ROLE = "Admin";
 	
 	private int id = -1;
@@ -48,11 +48,9 @@ public class User {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 	public String getRole() {
-		return role;
+		return this.role;
 	}
-
 	public void setRole(String role) {
 		this.role = role;
 	}

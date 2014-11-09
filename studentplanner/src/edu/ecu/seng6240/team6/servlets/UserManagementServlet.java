@@ -2,6 +2,7 @@ package edu.ecu.seng6240.team6.servlets;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,47 +23,69 @@ import edu.ecu.seng6240.team6.models.Student;
 @WebServlet("/UserManagementServlet")
 public class UserManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+      
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		this.doPost(request, response);
+	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		int responseCode = Response.SC_BAD_REQUEST;		
+		
 		String action = request.getParameter("action");
-		if (action == null) return;
-		int responseCode = Response.SC_OK;		
-		if (action.equals("add")){
-			Student student = null;
-			String dataString = RequestHelper.getDataString(request);
-			if (dataString != null) {
-				student = new Gson().fromJson(dataString, Student.class);
-				boolean insertSuccess = UserDataManager.insert(student);
-				if (!insertSuccess) {
-					responseCode = Response.SC_BAD_REQUEST;
-				}				
-			} else {
-				responseCode = Response.SC_BAD_REQUEST;
-			}			
-		}
-		else if (action.equals("update")){
-			Student student = null;
-			String dataString = RequestHelper.getDataString(request);
-			if (dataString != null) {
-				student = new Gson().fromJson(dataString, Student.class);
-				boolean updateSuccess = UserDataManager.update(student);
-			} else {
-
-			}						
-		}
-		else if (action.equals("delete")){
-			String idString = request.getParameter("id");
-			int id = Integer.parseInt(idString);
-			boolean deleteSuccess = UserDataManager.deleteStudent(id);
-			if (deleteSuccess) {
-				
-			}
+		if (action == null) {
+			response.setStatus(responseCode);
 		}
 		else {
-			responseCode = Response.SC_BAD_REQUEST;
+			if (action.equals("add")){
+				Student student = null;
+				String dataString = RequestHelper.getDataString(request);
+				
+				if (dataString != null) {
+					student = new Gson().fromJson(dataString, Student.class);
+					boolean insertSuccess = UserDataManager.insert(student);
+					
+					if (insertSuccess) {
+						responseCode = Response.SC_OK;
+					}				
+				}
+			}
+			else if (action.equals("update")){
+				Student student = null;
+				String dataString = RequestHelper.getDataString(request);
+				
+				if (dataString != null) {
+					student = new Gson().fromJson(dataString, Student.class);
+					boolean updateSuccess = UserDataManager.update(student);
+					if (updateSuccess)
+					{
+						responseCode  = Response.SC_OK;
+					}					
+				}
+			}
+			else if (action.equals("delete")){
+				String idString = request.getParameter("id");
+				int id = Integer.parseInt(idString);
+				boolean deleteSuccess = UserDataManager.deleteStudent(id);
+				if (deleteSuccess) {
+					responseCode = Response.SC_OK;
+				}
+			}
+			else {
+				responseCode = Response.SC_BAD_REQUEST;
+			}
 		}
-		response.setStatus(responseCode);
+			response.setStatus(responseCode);
+			
+			RequestDispatcher rd = null;
+			if (responseCode != 200) {
+				rd = request.getRequestDispatcher("/BadRequest.jsp");
+			}
+			else {
+				rd = request.getRequestDispatcher("/MainMenu.jsp");
+			}
+			rd.forward(request, response);
 	}
 
 }
