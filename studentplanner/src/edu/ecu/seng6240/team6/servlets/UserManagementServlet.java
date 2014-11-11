@@ -32,7 +32,7 @@ public class UserManagementServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		int responseCode = Response.SC_BAD_REQUEST;		
-		
+		System.getProperties().list(System.out);
 		String action = request.getParameter("action");
 		if (action == null) {
 			response.setStatus(responseCode);
