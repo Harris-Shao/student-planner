@@ -1,5 +1,8 @@
 package edu.ecu.seng6240.team6.Helper;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -9,34 +12,48 @@ import javax.sql.DataSource;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 public class DBConnectionManager {
-	
-	private static final String USER_NAME = null;
-	private static final String PASS_WORD = null;
-	private static final String SERVER= "localhost";
-	private static final String PORT="3306";
+
+	private static final String USER_NAME = "username";
+	private static final String PASS_WORD = "password";
+	private static final String SERVER = "54.148.36.144";
+	private static final String PORT = "3306";
 	public static final String DB = "StudentPlanner";
 
-	
-	private static DataSource getMySqlDataSource() {
-				
+	private static DataSource getMySqlDataSource() throws IOException {
+
 		Properties connectionProps = new Properties();
-		connectionProps.put("user", USER_NAME);
-		connectionProps.put("password", PASS_WORD);
-		
-		String url = "jdbc:mysql://"+SERVER+":"+PORT+"/"+DB;
-		
+
+		String osName = System.getProperty("os.name");
+
+		String inputFile = null;
+
+		if (osName.toLowerCase().startsWith("win")) {
+			// in windows
+			inputFile = "c:\\mysql\\user.properties";
+		} else { // in mac, linux, unix system
+
+			inputFile = "/opt/edu/ecu/user.properties";
+		}
+
+		FileInputStream in = new FileInputStream(inputFile);
+
+		connectionProps.load(in);
+		in.close();
+
+		String url = "jdbc:mysql://" + SERVER + ":" + PORT + "/" + DB;
+
 		MysqlDataSource mysqlDS = new MysqlDataSource();
 		mysqlDS.setURL(url);
-		mysqlDS.setUser(USER_NAME);
-		mysqlDS.setPassword(PASS_WORD);
-		
+		mysqlDS.setUser(connectionProps.getProperty(USER_NAME));
+		mysqlDS.setPassword(connectionProps.getProperty(PASS_WORD));
+
 		return mysqlDS;
 	}
-	
-	public static Connection getConnection() throws SQLException{
+
+	public static Connection getConnection() throws SQLException, IOException {
 		DataSource ds = getMySqlDataSource();
 		Connection con = null;
-	    con = ds.getConnection();
+		con = ds.getConnection();
 		return con;
 	}
 }

@@ -1,6 +1,7 @@
 package edu.ecu.seng6240.team6.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import edu.ecu.seng6240.team6.Helper.RequestHelper;
 import edu.ecu.seng6240.team6.Helper.UserDataManager;
 import edu.ecu.seng6240.team6.models.Student;
+import edu.ecu.seng6240.team6.models.User;
 
 /**
  * Servlet implementation class UserManagementServlet
@@ -32,7 +34,6 @@ public class UserManagementServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		int responseCode = Response.SC_BAD_REQUEST;		
-		System.getProperties().list(System.out);
 		String action = request.getParameter("action");
 		if (action == null) {
 			response.setStatus(responseCode);
@@ -72,9 +73,18 @@ public class UserManagementServlet extends HttpServlet {
 					responseCode = Response.SC_OK;
 				}
 			}
+			else if (action.equals("getAll")){
+				List<User> users = UserDataManager.getAllUser();
+				System.out.println(users.size());
+				for (User user:users)
+				{
+					System.out.println(user.getFirstName());
+				}
+			}
 			else {
 				responseCode = Response.SC_BAD_REQUEST;
 			}
+			
 		}
 			response.setStatus(responseCode);
 			
