@@ -114,7 +114,7 @@ public class UserDataManager {
 	}
 
 	public static List<User> getAllUser() {
-		List<User> users = new ArrayList<>(); 
+		List<User> users = new ArrayList<User>(); 
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
