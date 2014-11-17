@@ -3,7 +3,7 @@ Servers/
 RemoteSystemsTempFiles/
 
 # Directories #
-build/
+
 /bin/
 bin/
 target/
