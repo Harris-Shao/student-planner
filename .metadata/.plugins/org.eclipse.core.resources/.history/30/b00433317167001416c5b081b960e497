@@ -1,0 +1,19 @@
+package edu.ecu.seng6240.team6.models;
+
+<<<<<<< HEAD
+
+public class Student extends User{
+
+	public Student()
+	{
+		super();
+		super.setRole(STUDENT_ROLE);
+	}
+
+}
+
+=======
+public class Student {
+
+}
+>>>>>>> 28faa673316450421b5074914b239428e927d996
