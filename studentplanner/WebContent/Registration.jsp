@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Login</title>
+<title>Registration</title>
 <!-- Bootstrap -->
-<link href="/css/bootstrap.min.css" rel="stylesheet">
-<link href="/css/styles.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
 <link
 	href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
 	rel="stylesheet">
@@ -23,39 +23,46 @@
 	<div id="login-overlay" class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="myModalLabel">Welcome! Please login
-					to your Student Planner</h4>
+				<h4 class="modal-title" id="myModalLabel">Create a New Account</h4>
 			</div>
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-3">
 						<div class="well">
-							<form id="loginForm" method="POST" action="/login/"
+							<form id="registrationForm" method="POST" action="/Registration/"
 								novalidate="novalidate">
+                                <div class="form-group">
+									<label for="firstname" class="control-label">First Name</label> <input
+										type="text" class="form-control" id="firstname" name="firstname"
+										value="" required="" title="Please enter your first name"> 
+                                    <span class="help-block"></span>
+								</div>
+                                <div class="form-group">
+									<label for="lastname" class="control-label">Last Name</label> <input
+										type="text" class="form-control" id="lastname" name="lastname"
+										value="" required="" title="Please enter your last name"> 
+                                    <span class="help-block"></span>
+								</div>
+                                <div class="form-group">
+									<label for="email" class="control-label">E-Mail Address</label> <input
+										type="text" class="form-control" id="email" name="email"
+										value="" required="" title="Please enter your email address"> 
+                                    <span class="help-block"></span>
+								</div>
 								<div class="form-group">
 									<label for="username" class="control-label">Username</label> <input
 										type="text" class="form-control" id="username" name="username"
-										value="" required="" title="Please enter you username"> 
-										<span class="help-block"></span>
+										value="" required="" title="Please choose you username"> 
+                                    <span class="help-block"></span>
 								</div>
 								<div class="form-group">
 									<label for="password" class="control-label">Password</label> <input
 										type="password" class="form-control" id="password"
 										name="password" value="" required=""
-										title="Please enter your password"> <span
+										title="Please choose your password"> <span
 										class="help-block"></span>
 								</div>
-								<div id="loginErrorMsg" class="alert alert-error hide">Wrong
-									username or password</div>
-								<div class="checkbox">
-									<label> <input type="checkbox" name="remember"
-										id="remember"> Remember login
-									</label>
-								</div>
-								<button type="submit" class="btn btn-success btn-block">Login</button>
-								<a href="/forgot/" class="btn btn-default btn-block">Forgot
-									Username/Password</a> <a href="/Registration/"
-									class="btn btn-info btn-block">Sign up here!</a>
+								<button type="submit" class="btn btn-success btn-block">Submit</button>
 							</form>
 						</div>
 					</div>
@@ -68,6 +75,6 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="/js/bootstrap.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
