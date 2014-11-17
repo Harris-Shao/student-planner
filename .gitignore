@@ -1,9 +1,8 @@
-#Project Supporting Directories #
 Servers/
 RemoteSystemsTempFiles/
 
 # Directories #
-
+/build/
 /bin/
 bin/
 target/
@@ -11,7 +10,6 @@ target/
 *.class
  
 # Package Files #
-#*.jar
 *.war
 *.ear
 *.db
@@ -47,7 +45,6 @@ Desktop.ini
  
 *.pydevproject
 .metadata
-.metadata/
 bin/**
 tmp/**
 tmp/**/*
@@ -57,11 +54,12 @@ tmp/**/*
 *~.nib
 local.properties
 .classpath
+.settings/
 .loadpath
 /src/main/resources/rebel.xml
 # External tool builders
 .externalToolBuilders/
- git 
+ 
 # Locally stored "Eclipse launch configurations"
 *.launch
  
@@ -71,14 +69,3 @@ local.properties
 # PDT-specific
 .buildpath
 /*/build/
-
-######################
-# Front-end
-######################
-
-# Node modules
-node_modules/
-
-# Bower components
-bower_components/
-
