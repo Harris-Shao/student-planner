@@ -1309,3 +1309,34 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.
 
 !ENTRY org.eclipse.wst.common.project.facet.core 4 0 2014-11-16 20:00:38.619
 !MESSAGE Project facet osgi.comp has not been defined. It is used in plugin org.apache.geronimo.st.v30.core.
+!SESSION 2014-11-16 20:28:07.361 -----------------------------------------------
+eclipse.buildId=4.3.2.M20140221-1700
+java.version=1.7.0_55
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -product org.eclipse.epp.package.jee.product -keyring /Users/hongbingshao/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -data /Users/hongbingshao/StudentPlanner/student-planner -product org.eclipse.epp.package.jee.product -keyring /Users/hongbingshao/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2014-11-16 20:28:12.301
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2014-11-16 20:28:18.092
+!MESSAGE Could not load repository template extension contributed by org.springsource.ide.eclipse.dashboard.ui with connectorKind jira
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2014-11-16 20:28:18.092
+!MESSAGE Could not load repository template extension contributed by org.springsource.ide.eclipse.dashboard.ui with connectorKind jira
+
+!ENTRY org.eclipse.wst.common.project.facet.core 4 0 2014-11-16 20:28:19.724
+!MESSAGE Project facet grails.app has not been defined. It is used in plugin com.vmware.vfabric.ide.eclipse.tcserver.core.
+
+!ENTRY org.eclipse.wst.common.project.facet.core 4 0 2014-11-16 20:28:19.725
+!MESSAGE Project facet osgi.app has not been defined. It is used in plugin org.apache.geronimo.st.v30.core.
+
+!ENTRY org.eclipse.wst.common.project.facet.core 4 0 2014-11-16 20:28:19.725
+!MESSAGE Project facet osgi.bundle has not been defined. It is used in plugin org.apache.geronimo.st.v30.core.
+
+!ENTRY org.eclipse.wst.common.project.facet.core 4 0 2014-11-16 20:28:19.725
+!MESSAGE Project facet osgi.fragment has not been defined. It is used in plugin org.apache.geronimo.st.v30.core.
+
+!ENTRY org.eclipse.wst.common.project.facet.core 4 0 2014-11-16 20:28:19.725
+!MESSAGE Project facet osgi.comp has not been defined. It is used in plugin org.apache.geronimo.st.v30.core.
