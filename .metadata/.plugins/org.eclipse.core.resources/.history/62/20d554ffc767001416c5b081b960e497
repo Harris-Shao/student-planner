@@ -1,0 +1,49 @@
+package edu.ecu.seng6240.team6.servlets;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import edu.ecu.seng6240.team6.Helper.RequestHelper;
+import edu.ecu.seng6240.team6.models.Student;
+
+/**
+ * Servlet implementation class UserManagementServlet
+ */
+@WebServlet("/UserManagementServlet")
+public class UserManagementServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		String action = request.getParameter("action");
+		if (action == null) return;
+		
+		if (action.equals("addNewStudent")){
+			JsonObject jsonObject = null;
+			String dataString = RequestHelper.getDataString(request);
+			if (dataString != null) {
+				jsonObject = new Gson().fromJson(dataString, Student.class);
+			}
+			 = new JsonObject();
+			
+		}
+		else if (action.equals("updateNewStudent")){
+			
+		}
+		else if (action.equals("deleteNewStudent")){
+			
+		}
+		else {
+			
+		}			
+	}
+
+}

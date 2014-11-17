@@ -1,0 +1,13 @@
+package edu.ecu.seng6240.team6.Helper;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+public class SessionManager {
+	
+	private HttpSession session; 
+	
+	public SessionManager(HttpServletRequest request){
+		this.session = 
+	}
+}
