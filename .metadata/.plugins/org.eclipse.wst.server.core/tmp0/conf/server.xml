@@ -123,7 +123,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log." suffix=".txt"/>
             
-      <Context docBase="/Users/hongbingshao/StudentPlanner/student-planner/studentplanner/WebContent" path="" reloadable="true" source="org.eclipse.jst.jee.server:studentplanner"><Resources className="org.eclipse.jst.server.tomcat.loader.WtpDirContext" extraResourcePaths="/WEB-INF/classes|/Users/hongbingshao/StudentPlanner/student-planner/studentplanner/build/classes" virtualClasspath="/Users/hongbingshao/StudentPlanner/student-planner/studentplanner/build/classes"/><Loader className="org.eclipse.jst.server.tomcat.loader.WtpWebappLoader" useSystemClassLoaderAsParent="false" virtualClasspath="/Users/hongbingshao/StudentPlanner/student-planner/studentplanner/build/classes"/><JarScanner scanAllDirectories="true"/></Context></Host>
+      <Context docBase="/Users/hongbingshao/ecu/seng6240_team6/student-planner/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/studentplanner" path="" reloadable="true" source="org.eclipse.jst.jee.server:studentplanner"/></Host>
       
     </Engine>
   </Service>

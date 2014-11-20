@@ -44,7 +44,7 @@
                 </div>
                 <button type="submit" class="btn btn-success btn-block">Login</button>
                 <a href="/forgot/" class="btn btn-default btn-block">Forgot Username/Password</a>
-                <a href="/Registration/" class="btn btn-info btn-block">Sign up here!</a>
+                <a href="/Registration.jsp" class="btn btn-info btn-block">Sign up here!</a>
             </form>
         </div>
     </div>

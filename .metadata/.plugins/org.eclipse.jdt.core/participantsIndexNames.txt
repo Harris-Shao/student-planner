@@ -1,3 +1,5 @@
 INDEX VERSION 1.126
+/Users/hongbingshao/ecu/seng6240_team6/student-planner/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/579333879.index
+/studentplanner/src
 /Users/hongbingshao/StudentPlanner/student-planner/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/579333879.index
 /studentplanner/src
