@@ -80,6 +80,7 @@ public class UserManagementServlet extends HttpServlet {
 				{
 					System.out.println(user.getFirstName());
 				}
+				responseCode= Response.SC_OK;
 			}
 			else {
 				responseCode = Response.SC_BAD_REQUEST;

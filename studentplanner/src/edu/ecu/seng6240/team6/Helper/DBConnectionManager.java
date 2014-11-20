@@ -15,8 +15,8 @@ public class DBConnectionManager {
 
 	private static final String USER_NAME = "username";
 	private static final String PASS_WORD = "password";
-	private static final String SERVER = "54.148.36.144";
-	private static final String PORT = "3306";
+	private static final String SERVER = "server";
+	private static final String PORT = "port";
 	public static final String DB = "StudentPlanner";
 
 	private static DataSource getMySqlDataSource() throws IOException {
@@ -39,9 +39,10 @@ public class DBConnectionManager {
 
 		connectionProps.load(in);
 		in.close();
-
-		String url = "jdbc:mysql://" + SERVER + ":" + PORT + "/" + DB;
-
+		String server = connectionProps.getProperty(SERVER);
+		String port= connectionProps.getProperty(PORT);
+		String url = "jdbc:mysql://" + server + ":" + port + "/" + DB;
+		System.out.println(url);
 		MysqlDataSource mysqlDS = new MysqlDataSource();
 		mysqlDS.setURL(url);
 		mysqlDS.setUser(connectionProps.getProperty(USER_NAME));
