@@ -39,15 +39,25 @@ public class DBConnectionManager {
 
 		connectionProps.load(in);
 		in.close();
+		/*
 		String server = connectionProps.getProperty(SERVER);
 		String port= connectionProps.getProperty(PORT);
-		String url = "jdbc:mysql://" + server + ":" + port + "/" + DB;
+		*/
+		String server="localhost";
+		String port="3306";
+		String testdb="test";
+		String url = "jdbc:mysql://" + server + ":" + port + "/" + testdb+"?relaxAutoCommit=true";
 		System.out.println(url);
 		MysqlDataSource mysqlDS = new MysqlDataSource();
 		mysqlDS.setURL(url);
+		
+		mysqlDS.setUser("root");
+		mysqlDS.setPassword("1234");
+		
+		/*
 		mysqlDS.setUser(connectionProps.getProperty(USER_NAME));
 		mysqlDS.setPassword(connectionProps.getProperty(PASS_WORD));
-
+		*/
 		return mysqlDS;
 	}
 

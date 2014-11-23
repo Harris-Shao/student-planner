@@ -12,29 +12,33 @@ import edu.ecu.seng6240.team6.models.Event;
 
 public class EventDataManager {
 
-	private static final String INSERT_EVENT="INSERT INTO Event(UserID,Title,Date,Time,Address,Tag) VALUES (?,?,?,?,?,?)";
-	private static final String DELETE_EVENT_BY_ID="DELETE FROM Event WHERE id=%s"; 
-	private static final String SELECT_EVENT_BY_TAG="SELECT * FROM Event WHERE UserID=? AND Tag=?";
-	private static final String UPDATE_EVENT_BY_ID="UPDATE Event SET Title=?, Date=?, Time=?, Address=?, Tag=? "+
-											 "WHERE id=%s";
-	private static final String SELECT_ALL_EVENTS="SELECT * FROM Event WHERE UserID=%s";
+	private static final String INSERT_EVENT="INSERT INTO EventTable(UserID,Title,DateStr,TimeStr,Address,Tag) VALUES (?,?,?,?,?,?)";
+	private static final String DELETE_EVENT_BY_ID="DELETE FROM EventTable WHERE id=%s"; 
+	private static final String SELECT_EVENT_BY_TAG="SELECT * FROM EventTable WHERE UserID=? AND Tag=?";
+	private static final String UPDATE_EVENT_BY_ID="UPDATE EventTable SET Title=?, DateStr=?, TimeStr=?, Address=?, Tag=? "+
+											 "WHERE id=?";
+	private static final String SELECT_ALL_EVENTS="SELECT * FROM EventTable WHERE UserID=?";
 	public EventDataManager() {
 		
 	}
 	
 	//Modify event by id
-	public static boolean update(int id)
+	public static boolean update(int id,String title,String date,String time,String address,String tag)
 	{
 		Connection con=null;
-		String updateString=String.format(UPDATE_EVENT_BY_ID,Integer.toString(id));
-		PreparedStatement ps=null;
 		boolean success=false;
+		PreparedStatement ps=null;
 		
 		try
 		{
 			con=DBConnectionManager.getConnection();
-			ps=con.prepareStatement(updateString);
-
+			ps=con.prepareStatement(UPDATE_EVENT_BY_ID);
+			ps.setString(1,title);
+			ps.setString(2,date);
+			ps.setString(3, time);
+			ps.setString(4, address);
+			ps.setString(5, tag);
+			ps.setInt(6,id);
 			int rowCount=ps.executeUpdate();
 			
 			if(rowCount==1)
@@ -87,14 +91,17 @@ public class EventDataManager {
 				Event event=new Event();
 				event.setId(rs.getInt("id"));
 				event.setAddress(rs.getString("Address"));
-				event.setDate(rs.getString("Date"));
-				event.setTime(rs.getString("Time"));
+				event.setDateStr(rs.getString("DateStr"));
+				event.setTimeStr(rs.getString("TimeStr"));
+				event.setTitle(rs.getString("Title"));
+				event.setTag(rs.getString("Tag"));
+				event.setUserID(rs.getInt("UserID"));
 				events.add(event);
 			}
 		}	
 		catch(SQLException | IOException e)
 		{
-				
+				e.printStackTrace();
 		}
 			
 		finally
@@ -107,7 +114,7 @@ public class EventDataManager {
 			}
 			catch (SQLException e)
 			{
-				
+				e.printStackTrace();
 			}
 					
 		}
@@ -137,8 +144,11 @@ public class EventDataManager {
 				Event event=new Event();
 				event.setId(rs.getInt("id"));
 				event.setAddress(rs.getString("Address"));
-				event.setDate(rs.getString("Date"));
-				event.setTime(rs.getString("Time"));
+				event.setDateStr(rs.getString("DateStr"));
+				event.setTimeStr(rs.getString("TimeStr"));
+				event.setTitle(rs.getString("Title"));
+				event.setTag(rs.getString("Tag"));
+				event.setUserID(rs.getInt("UserID"));
 				events.add(event);
 			}
 		}	
@@ -176,11 +186,12 @@ public class EventDataManager {
 		{
 			con=DBConnectionManager.getConnection();
 			ps=con.prepareStatement(INSERT_EVENT);
-			ps.setString(1, event.getTitle());
-			ps.setString(2, event.getDate());
-			ps.setString(3, event.getTime());
-			ps.setString(4, event.getAddress());
-			ps.setString(5, event.getTag());
+			ps.setInt(1, event.getUserID());
+			ps.setString(2, event.getTitle());
+			ps.setString(3, event.getDateStr());
+			ps.setString(4, event.getTimeStr());
+			ps.setString(5, event.getAddress());
+			ps.setString(6, event.getTag());
 		
 			int rowCount=ps.executeUpdate();
 			
@@ -192,7 +203,7 @@ public class EventDataManager {
 		}	
 		catch(SQLException | IOException e)
 		{
-				
+				e.printStackTrace();
 		}
 			
 		finally
@@ -204,7 +215,7 @@ public class EventDataManager {
 			}
 			catch (SQLException e)
 			{
-				
+				e.printStackTrace();
 			}
 					
 		}
@@ -236,7 +247,7 @@ public class EventDataManager {
 		}	
 		catch(SQLException | IOException e)
 		{
-				
+			e.printStackTrace();
 		}
 			
 		finally
@@ -248,7 +259,7 @@ public class EventDataManager {
 			}
 			catch (SQLException e)
 			{
-				
+				e.printStackTrace();
 			}
 					
 		}
