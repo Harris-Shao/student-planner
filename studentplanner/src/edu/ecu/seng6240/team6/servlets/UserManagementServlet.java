@@ -25,7 +25,12 @@ import edu.ecu.seng6240.team6.models.User;
 @WebServlet("/UserManagementServlet")
 public class UserManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      
+    
+	public UserManagementServlet()
+	{
+		//empty constructor. Utilized by RegistrationServlet to create a new
+		//instance of this class, and handle request for adding a user...
+	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		this.doPost(request, response);
@@ -87,16 +92,16 @@ public class UserManagementServlet extends HttpServlet {
 			}
 			
 		}
-			response.setStatus(responseCode);
-			
-			RequestDispatcher rd = null;
-			if (responseCode != 200) {
-				rd = request.getRequestDispatcher("/BadRequest.jsp");
-			}
-			else {
-				rd = request.getRequestDispatcher("/MainMenu.jsp");
-			}
-			rd.forward(request, response);
+		response.setStatus(responseCode);
+		
+		RequestDispatcher rd = null;
+		if (responseCode != 200) {
+			rd = request.getRequestDispatcher("/BadRequest.jsp");
+		}
+		else {
+			rd = request.getRequestDispatcher("/MainMenu.jsp");
+		}
+		rd.forward(request, response);
 	}
 
 }
