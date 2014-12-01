@@ -25,7 +25,7 @@ public class RegistrationServlet
 	{
 		String action=request.getParameter("action");
 		RequestDispatcher rd=null;
-		if(!action.equals("add"))
+		if( action== null || !action.equals("add"))
 		{
 			//if action != "add" then redirect request to bad request page
 			rd=request.getRequestDispatcher("/BadRequest.jsp");
