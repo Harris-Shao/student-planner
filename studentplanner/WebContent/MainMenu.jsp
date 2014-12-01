@@ -68,13 +68,13 @@
         dp.heightSpec = "Fixed";
         dp.height = 600;        
         dp.init();
-        
+        var user;
 
         // RIGHT_CLICK MENU FOR EVENTS
 
         dp.contextMenu = new DayPilot.Menu({
             items: [
-            { text: "Share", onclick: function () { var user = prompt("Share with: ", "Email Address"); if (!name) return;} },
+            { text: "Share", onclick: function () { user = prompt("Share event with: ", "Email Address"); } },
             { text: "Show event ID", onclick: function () { alert("Event value: " + this.source.value()); } },
             { text: "Show event text", onclick: function () { alert("Event text: " + this.source.text()); } },
             { text: "Show event start", onclick: function () { alert("Event start: " + this.source.start().toStringSortable()); } },
@@ -82,7 +82,9 @@
             { text: "Delete", onclick: function () { dp.events.remove(this.source); } }
             ]
         });
-       
+
+      
+
 
         // EVENT CREATION
         // on-click; use drag to stretch event. Can move event around.
