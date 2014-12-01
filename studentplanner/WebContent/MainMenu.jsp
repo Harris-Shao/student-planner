@@ -10,6 +10,10 @@
     <link type="text/css" rel="stylesheet" href="css/calendar_white.css" />     
 </head>
 <body>
+
+    <!-- CSS THEME MENU -->
+
+
     <div class="space">
         CSS Theme:
         <select id="theme">
@@ -27,59 +31,61 @@
         <div id="dp"></div>
     </div>
 
-   <!--<script type="text/javascript">
-    function editEvent(e) {
-    var modal = new DayPilot.Modal();
-    modal.top = 60; // position of the dialog top (y), relative to the visible area
-    modal.width = 300; // width of the dialog
-    modal.height = 250; // height of the dialog
-    modal.opacity = 70; // opacity of the background
-    modal.border = "10px solid #d0d0d0";  // dialog box border
-    modal.closed = function() { // callback executed after the dialog is closed
-    if(this.result == "OK") {  // if the
-    dp.commandCallBack('refresh');
-    }
-    };
-    modal.showUrl("Edit.aspx?id=" + e.value());
-    }
-    </script>--> 
+    <script type="text/javascript">
+
+         $(document).ready(function ($) {
+            $("#theme").change(function (e) {
+                dp.theme = this.value;
+                dp.update();
+            });
+        });
+    </script>
+
 
 
     <script type="text/javascript">
 
-        //MONTHLY NAVIGATOR
+        // MONTHLY NAVIGATOR
 
-    var nav = new DayPilot.Navigator("nav");
-    nav.showMonths = 3;
-    nav.skipMonths = 3;
-    nav.selectMode = "week";
-    nav.init();
+        var nav = new DayPilot.Navigator("nav");
+        nav.showMonths = 3;
+        nav.selectMode = "week";
+        nav.onTimeRangeSelected = function (args) {
+            dp.startDate = args.start;
+            dp.update();
+        };
+        nav.init();
 
     </script>
 
     
     <script type="text/javascript">
 
-        //calendar creation
+        // CALENDAR CREATION
 
         var dp = new DayPilot.Calendar("dp");
         dp.viewType = "Week";
-
-        
+        dp.heightSpec = "Fixed";
+        dp.height = 600;        
         dp.init();
         
+
+        // RIGHT_CLICK MENU FOR EVENTS
+
         dp.contextMenu = new DayPilot.Menu({
             items: [
-            { text: "Share", onclick: function () { alert("Share with: ");} },
+            { text: "Share", onclick: function () { var user = prompt("Share with: ", "Email Address"); if (!name) return;} },
             { text: "Show event ID", onclick: function () { alert("Event value: " + this.source.value()); } },
             { text: "Show event text", onclick: function () { alert("Event text: " + this.source.text()); } },
             { text: "Show event start", onclick: function () { alert("Event start: " + this.source.start().toStringSortable()); } },
+            { text: "Show event stop", onclick: function () { alert("Event stop: " + this.source.end().toStringSortable()); } },
             { text: "Delete", onclick: function () { dp.events.remove(this.source); } }
             ]
         });
+       
 
-
-        // On-click; use drag to stretch event. Can move event around.
+        // EVENT CREATION
+        // on-click; use drag to stretch event. Can move event around.
 
         dp.onTimeRangeSelected = function (args) {     
             var name = prompt("New event name:", "Event");
@@ -98,7 +104,6 @@
         };
 
     </script>
-
    
    
 
@@ -109,27 +114,7 @@
     };-->
 
 
-    <script type="text/javascript">
-
-        // CSS THEME Choose
-
-    $(document).ready(function ($) {
-        $("#theme").change(function (e) {
-            dp.theme = this.value;
-            dp.update();
-        });
-    });
-    </script>
-
-    <script type="text/javascript">
-
-        // NEW EVENT
-
-    var e = new DayPilot.Event({start:new DayPilot.Date(), end:(new DayPilot.Date()).addHours(5), value: DayPilot.guid(), text: "Test Event", resource:'E'});
-    dp.events.add(e);
-        </script>
-
-
+    
 
     </body>
     </html>
