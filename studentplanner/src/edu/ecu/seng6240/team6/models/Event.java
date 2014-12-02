@@ -1,160 +1,150 @@
 package edu.ecu.seng6240.team6.models;
 
+import java.util.Random;
+
 import com.google.gson.JsonObject;
 
 public class Event {
 
 
 	private int id=-1;
-	private int userID=-1;
-	private String title=null;
-	private String tag=null;
-	private String dateStr=null;
-	private String timeStr=null;
-	private String address=null;
+	private int userID = -1;
+	private boolean isOwner = true;	
+	private String start=null;
+	private String end=null;
+	private String text=null;
+	private String value = null;
+	private String resources = "A";
 	
 	public Event()
 	{
 		
 	}
 	
-	public Event(int userID,String title, String date, String time, String address,String tag)
-	{
-		this.userID=userID;
-		this.title=title;
-		this.tag=tag;
-		this.dateStr=date;
-		this.timeStr=time;
-		this.address=address;
-	}
+	
 	public Event(JsonObject jsonObject) {
-		this.id=jsonObject.has("id")?jsonObject.get("id").getAsInt():-1;
 		
+		this.id=jsonObject.has("id")?jsonObject.get("id").getAsInt():-1;		
 		this.userID=jsonObject.has("userID")?jsonObject.get("userID").getAsInt():-1;
-		this.title=jsonObject.has("title")?jsonObject.get("title").getAsString():null;
+		this.isOwner=jsonObject.has("isOwner")?jsonObject.get("isOwner").getAsBoolean():true;
 		
-		this.dateStr=jsonObject.has("date")?jsonObject.get("date").getAsString():null;
+		this.start=jsonObject.has("start")?jsonObject.get("start").getAsString():null;
 		
-		this.timeStr=jsonObject.has("time")?jsonObject.get("time").getAsString():null;
+		this.end=jsonObject.has("end")?jsonObject.get("end").getAsString():null;
 		
-		this.tag =jsonObject.has("tag" )?jsonObject.get("tag").getAsString():null;
+		this.text =jsonObject.has("text" )?jsonObject.get("text").getAsString():null;
 		
-		this.address =jsonObject.has("address" )?jsonObject.get("address").getAsString():null;
+		this.value =jsonObject.has("value" )?jsonObject.get("value").getAsString():null;
+		this.resources =jsonObject.has("resources" )?jsonObject.get("resources").getAsString():"A";
 	}
 
-	/**
-	 * @return the id
-	 */
+	
+	public JsonObject toJsonObject(){
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("id", this.getId());
+		jsonObject.addProperty("isOwner", this.isOwner);
+		jsonObject.addProperty("userID", this.getUserID());
+		jsonObject.addProperty("start", this.getStart());
+		jsonObject.addProperty("end", this.getEnd());
+		jsonObject.addProperty("text", this.getText());
+		jsonObject.addProperty("value", this.getValue());
+		jsonObject.addProperty("resources", this.getResources());
+		return jsonObject;
+	}
+	
+
+
+	
 	public int getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
+
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the userID
-	 */
+
 	public int getUserID() {
 		return userID;
 	}
 
-	/**
-	 * @param userID the userID to set
-	 */
+
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
 
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
+
+	public boolean isOwner() {
+		return isOwner;
 	}
 
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
+
+	public void setOwner(boolean isOwner) {
+		this.isOwner = isOwner;
 	}
 
-	/**
-	 * @return the tag
-	 */
-	public String getTag() {
-		return tag;
+
+	public String getStart() {
+		return start;
 	}
 
-	/**
-	 * @param tag the tag to set
-	 */
-	public void setTag(String tag) {
-		this.tag = tag;
+
+	public void setStart(String start) {
+		this.start = start;
 	}
 
-	/**
-	 * @return the dateStr
-	 */
-	public String getDateStr() {
-		return dateStr;
+
+	public String getEnd() {
+		return end;
 	}
 
-	/**
-	 * @param dateStr the dateStr to set
-	 */
-	public void setDateStr(String dateStr) {
-		this.dateStr = dateStr;
+
+	public void setEnd(String end) {
+		this.end = end;
 	}
 
-	/**
-	 * @return the timeStr
-	 */
-	public String getTimeStr() {
-		return timeStr;
+
+	public String getText() {
+		return text;
 	}
 
-	/**
-	 * @param timeStr the timeStr to set
-	 */
-	public void setTimeStr(String timeStr) {
-		this.timeStr = timeStr;
+
+	public void setText(String text) {
+		this.text = text;
 	}
 
-	/**
-	 * @return the address
-	 */
-	public String getAddress() {
-		return address;
+
+	public String getValue() {
+		return value;
 	}
 
-	/**
-	 * @param address the address to set
-	 */
-	public void setAddress(String address) {
-		this.address = address;
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 
-	
+
+	public String getResources() {
+		return resources;
+	}
+
+
+	public void setResources(String resources) {
+		this.resources = resources;
+	}
+
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((dateStr == null) ? 0 : dateStr.hashCode());
+		int result = new Random().nextInt(20);
+
 		result = prime * result + id;
-		result = prime * result + ((tag == null) ? 0 : tag.hashCode());
-		result = prime * result + ((timeStr == null) ? 0 : timeStr.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		result = prime * result + userID;
+
 		return result;
 	}
 
@@ -170,31 +160,7 @@ public class Event {
 		if (!(obj instanceof Event))
 			return false;
 		Event other = (Event) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (dateStr == null) {
-			if (other.dateStr != null)
-				return false;
-		} else if (!dateStr.equals(other.dateStr))
-			return false;
-		if (tag == null) {
-			if (other.tag != null)
-				return false;
-		} else if (!tag.equals(other.tag))
-			return false;
-		if (timeStr == null) {
-			if (other.timeStr != null)
-				return false;
-		} else if (!timeStr.equals(other.timeStr))
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
+
 		if (userID != other.userID)
 			return false;
 		return true;
@@ -205,9 +171,7 @@ public class Event {
 	 */
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", userID=" + userID + ", title=" + title
-				+ ", tag=" + tag + ", dateStr=" + dateStr + ", timeStr="
-				+ timeStr + ", address=" + address + "]";
+		return "Event [id=" + id + ", userID=" + userID + ", text" + text+"]";
 	}
 	
 	

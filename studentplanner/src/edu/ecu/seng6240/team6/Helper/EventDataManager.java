@@ -11,13 +11,17 @@ import java.util.List;
 import edu.ecu.seng6240.team6.models.Event;
 
 public class EventDataManager {
+	
+	private static final String INSERT_EVENT_DAIPLOT="INSERT INTO Event(UserID,IsOwner,StartTime,EndTime,Texts,EValue, Resources)"
+			+ "	VALUES (?,?,?,?,?,?,?)";
 
-	private static final String INSERT_EVENT="INSERT INTO EventTable(UserID,Title,DateStr,TimeStr,Address,Tag) VALUES (?,?,?,?,?,?)";
-	private static final String DELETE_EVENT_BY_ID="DELETE FROM EventTable WHERE id=%s"; 
-	private static final String SELECT_EVENT_BY_TAG="SELECT * FROM EventTable WHERE UserID=? AND Tag=?";
-	private static final String UPDATE_EVENT_BY_ID="UPDATE EventTable SET Title=?, DateStr=?, TimeStr=?, Address=?, Tag=? "+
+	private static final String INSERT_EVENT="INSERT INTO Event(UserID,Title,DateStr,TimeStr,Address,Tag) VALUES (?,?,?,?,?,?)";
+	private static final String DELETE_EVENT_BY_ID="DELETE FROM Event WHERE id=%s"; 
+	private static final String SELECT_EVENT_BY_TAG="SELECT * FROM Event WHERE UserID=? AND Tag=?";
+	private static final String UPDATE_EVENT_BY_ID="UPDATE Event SET Title=?, DateStr=?, TimeStr=?, Address=?, Tag=? "+
 											 "WHERE id=?";
-	private static final String SELECT_ALL_EVENTS="SELECT * FROM EventTable WHERE UserID=?";
+	private static final String SELECT_ALL_EVENTS_FOR_USER="SELECT * FROM Event WHERE UserID=?";
+	
 	public EventDataManager() {
 		
 	}
@@ -81,7 +85,7 @@ public class EventDataManager {
 		try
 		{
 			con=DBConnectionManager.getConnection();
-			ps=con.prepareStatement(SELECT_ALL_EVENTS);
+			ps=con.prepareStatement(SELECT_ALL_EVENTS_FOR_USER);
 			ps.setInt(1, userID);
 		
 			rs=ps.executeQuery();
@@ -89,13 +93,14 @@ public class EventDataManager {
 			while(rs.next())
 			{
 				Event event=new Event();
-				event.setId(rs.getInt("id"));
-				event.setAddress(rs.getString("Address"));
-				event.setDateStr(rs.getString("DateStr"));
-				event.setTimeStr(rs.getString("TimeStr"));
-				event.setTitle(rs.getString("Title"));
-				event.setTag(rs.getString("Tag"));
+				event.setId(rs.getInt("ID"));
+				event.setEnd(rs.getString("EndTime"));
+				event.setStart(rs.getString("StartTime"));
+				event.setOwner(rs.getBoolean("IsOwner"));
 				event.setUserID(rs.getInt("UserID"));
+				event.setValue(rs.getString("EValue"));
+				event.setResources(rs.getString("Resources"));
+				event.setText(rs.getString("Texts"));
 				events.add(event);
 			}
 		}	
@@ -123,7 +128,7 @@ public class EventDataManager {
 	}
 
 	//select event by tag
-	public static List<Event> getUserEventsByTag(int userID,String queryTag)
+/*	public static List<Event> getUserEventsByTag(int userID,String queryTag)
 	
 	{
 		List<Event> events=new ArrayList<Event>();
@@ -174,9 +179,9 @@ public class EventDataManager {
 		
 		return events;
 	}
-	
+	*/
 	//insert a new event
-	public static boolean insert(Event event)
+/*	public static boolean insert(Event event)
 	{
 		Connection con=null;
 		PreparedStatement ps=null;
@@ -223,6 +228,104 @@ public class EventDataManager {
 		
 		return success;
 	}
+	*/
+	
+	public static boolean insertDAIEvent(Event event)
+	{
+		Connection con=null;
+		PreparedStatement ps=null;
+		boolean success=false;
+		try
+		{
+			con=DBConnectionManager.getConnection();
+			ps=con.prepareStatement(INSERT_EVENT_DAIPLOT);
+			ps.setInt(1, event.getUserID());
+			ps.setBoolean(2, event.isOwner());
+			ps.setString(3, event.getStart());
+			ps.setString(4, event.getEnd());
+			ps.setString(5, event.getText());
+			ps.setString(6, event.getValue()==null?"":event.getValue());
+			ps.setString(7, event.getResources());
+		
+			int rowCount=ps.executeUpdate();
+			
+			if(rowCount==1)
+			{
+				success=true;
+				con.commit();
+			}
+		}	
+		catch(SQLException | IOException e)
+		{
+				e.printStackTrace();
+		}
+			
+		finally
+		{
+			try
+			{
+				if (ps!=null)ps.close();
+				if(con!=null)con.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+					
+		}
+		
+		
+		return success;
+	}
+
+	public static boolean shareEvent(Event event, int userID)
+	{
+		Connection con=null;
+		PreparedStatement ps=null;
+		boolean success=false;
+		try
+		{
+			con=DBConnectionManager.getConnection();
+			ps=con.prepareStatement(INSERT_EVENT_DAIPLOT);
+			ps.setInt(1, userID);
+			ps.setBoolean(2, false);
+			ps.setString(3, event.getStart());
+			ps.setString(4, event.getEnd());
+			ps.setString(5, event.getText());
+			ps.setString(6, event.getValue());
+			ps.setString(7, event.getResources());
+		
+			int rowCount=ps.executeUpdate();
+			
+			if(rowCount==1)
+			{
+				success=true;
+				con.commit();
+			}
+		}	
+		catch(SQLException | IOException e)
+		{
+				e.printStackTrace();
+		}
+			
+		finally
+		{
+			try
+			{
+				if (ps!=null)ps.close();
+				if(con!=null)con.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+					
+		}
+		
+		
+		return success;
+	}
+	
 	
 	//delete Event by id
 	public static boolean delete(int id)

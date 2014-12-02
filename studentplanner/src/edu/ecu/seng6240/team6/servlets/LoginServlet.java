@@ -17,6 +17,7 @@ import edu.ecu.seng6240.team6.Helper.RequestHelper;
 import edu.ecu.seng6240.team6.Helper.SessionManager;
 import edu.ecu.seng6240.team6.Helper.UserDataManager;
 import edu.ecu.seng6240.team6.models.Student;
+import edu.ecu.seng6240.team6.models.User;
 
 /**
  * Servlet implementation class LoginServlet
@@ -42,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		if (action == null) 
 		{
-			response.setStatus(responseCode);
+			responseCode = Response.SC_BAD_REQUEST;
 		}
 		else 
 		{
@@ -52,28 +53,32 @@ public class LoginServlet extends HttpServlet {
 				responseCode=Response.SC_OK;
 				
 				//retrieve the userNameString from the request
-				String userNameString = RequestHelper.getDataString(request);
-				
-				if (userNameString != null) 
+				String userNameString = request.getParameter("userName");
+				String userEmail = request.getParameter("userEmail");
+				String password = request.getParameter("password");
+				User user = null;
+				if (userEmail != null) {
+					user = UserDataManager.getStudentByUserNameOrEmailAndPassword(userEmail, password);
+				}
+				if (user == null) {
+					if (userNameString != null) {
+						user = UserDataManager.getStudentByUserNameOrEmailAndPassword(userNameString, password);
+					}
+				}
+
+				if (user != null) 
 				{
-					//try to query the database for student with given username
-					Student retrievedStd=UserDataManager.getStudentByUserName(userNameString);
-				
-					if(retrievedStd !=null)
-					 {
-						 //given user exists... so start a new session
+					//given user exists... so start a new session
 						 SessionManager beginSession=new SessionManager(request);
-						 beginSession.setUser(retrievedStd);
+						 beginSession.setUser(user);
 						 retrieveSuccess=true;
-					 }
-					 else
-					 {
+				}
+				else
+				{
 						 //user with given username doesn't exist
 						 retrieveSuccess=false;
-					 }
-					
-				}// end if(dataString !=null)
-				
+				}
+									
 			}
 			else 
 			{
@@ -98,9 +103,7 @@ public class LoginServlet extends HttpServlet {
 			else
 				rd=  request.getRequestDispatcher("/NotAuthorized.jsp");
 		}
-		rd.forward(request, response);
-
-		
+		rd.forward(request, response);	
 		
 	}//end method
 }

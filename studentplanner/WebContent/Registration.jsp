@@ -54,7 +54,52 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]--->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			
+			$("button").click(function(){
+				var credentialObject = {
+						username:$("#username").val(),
+						password1:$("#password1").val(),
+						password2:$("#password2").val(),
+						firstname:$("#firstname").val(),
+						lastname:$("#lastname").val(),
+						email:$("#email").val(),
+						value:$("#mathValue").val(),
+						answer:$("#mathAnswer").val()				
+				};
+				console.log(credentialObject);
+				$.ajax({
+					type : 'POST', 
+					url : "/UserManagementServlet?action=add",
+					data: JSON.stringify(credentialObject),
+					processData:false,
+					contentType:'application/json',
+					mimeType: 'text/plain; charset=x-user-defined',
+					dataType:"json",
+					success : function(data) 
+					{
 
+							window.location = "/MainMenu.jsp";
+
+					},
+					error : function(data) 
+					{
+						console.log(data);
+						if (data.responseJSON.errors) {
+							alert(data.responseJSON.errors)
+						}
+						else {
+							alert("bad request");
+						}
+					}
+				});
+			});
+
+			
+		});
+	</script>
     <style> body {background-color: black;}</style>
 </head>
 <body>
@@ -63,7 +108,7 @@
             <h4 class="modal-title" id="myModalLabel" style="color:black">Create a new account</h4>
         </div>
         <div class="modal-body row col-sm-6 col-sm-offset-3 well">
-            <form id="registrationForm" method="POST" action="/UserManagementServlet?action=add" novalidate="novalidate">
+            <form id="registrationForm" novalidate="novalidate">
                 <div class="form-group">
                     <label for="firstname" class="control-label" style="color:black">First Name</label> 
                     <input type="text" class="form-control" id="firstname" name="firstname" value="" required="" title="Please enter your first name">
@@ -99,12 +144,12 @@
                     <input type="text" class="form-control" id="mathAnswer" name="answer" value="" required="" title="Please enter your answer"> 
                     <span class="help-block"></span>
                 </div>  
-                <div class="form-group" style="">
+                <div class="form-group" style="display:none">
                     <label for="value" class="control-label" style="color:black">Result of <%=formular%> = ?</label> 
                     <input type="text" class="form-control" id="mathValue" name="value" value="<%=valueString%>"> 
                     <span class="help-block"></span>
                 </div>               
-                <button type="submit" class="btn btn-success btn-block">Submit</button>
+                <button type="button" class="btn btn-success btn-block" >Submit</button>
             </form>
         </div>
     </div>

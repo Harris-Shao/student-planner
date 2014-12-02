@@ -12,6 +12,8 @@ public class User {
 	private String firstName = null;
 	private String userName = null;
 	private String role = null;
+	private String userEmail = null;
+	private String password = null;
 	public User(){
 		
 	}
@@ -22,6 +24,8 @@ public class User {
 		this.lastName = jsonObject.has("lastName")?jsonObject.get("lastName").getAsString():null;
 		this.firstName = jsonObject.has("firstName")?jsonObject.get("firstName").getAsString():null;
 		this.userName = jsonObject.has("username")?jsonObject.get("username").getAsString():null;
+		this.setUserEmail(jsonObject.has("userEmail")?jsonObject.get("userEmail").getAsString():null);
+		this.setPassword(jsonObject.has("password")?jsonObject.get("password").getAsString():null);
 	}
 	
 	public int getId() {
@@ -53,6 +57,22 @@ public class User {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	/* (non-Javadoc)

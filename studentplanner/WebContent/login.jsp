@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
 	pageEncoding="US-ASCII"%>
+<%
+	request.getSession().setAttribute("User", null);
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,22 +28,22 @@
             <h4 id="myModalLabel" class="modal-title" style="color:white"> Welcome! Please login to your Student Planner</h4>
         </div>
         <div class="modal-body row col-sm-6 col-sm-offset-3 well">
-            <form id="loginForm" method="POST" action="/login/" novalidate="novalidate">
+            <form id="loginForm" method="POST" action="/LoginServlet?action=login" novalidate="novalidate">
                 <div class="form-group">
-                    <label for="username" class="control-label" style="color:white">Username</label>
-                    <input type="text" class="form-control" id="username" name="username"
+                    <label for="username" class="control-label" style="color:black">Username</label>
+                    <input type="text" class="form-control" id="username" name="userName"
                            value="" required="" title="Please enter you username">
                     <span class="help-block"></span>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="control-label" style="color:white">Password</label>
+                    <label for="password" class="control-label" style="color:black">Password</label>
                     <input type="password" class="form-control" id="password"
                            name="password" value="" required="" title="Please enter your password">
                     <span class="help-block"></span>
                 </div>
-                <div id="loginErrorMsg" class="alert alert-error hide" style="color:white">Wrong username or password</div>
+                <div id="loginErrorMsg" class="alert alert-error hide" style="color:black">Wrong username or password</div>
                 <div class="checkbox">
-                    <label> <input type="checkbox" name="remember" id="remember" style="color:white"> Remember login</label>
+                    <label> <input type="checkbox" name="remember" id="remember" style="color:black"> Remember login</label>
                 </div>
                 <button type="submit" class="btn btn-success btn-block">Login</button>
                 <a href="/ResetPassword.jsp" class="btn btn-default btn-block">Forgot Username/Password</a>
