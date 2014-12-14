@@ -1,3 +1,4 @@
+
 create table if not exists Event(
 
 	ID INT NOT NULL auto_increment,
@@ -8,7 +9,7 @@ create table if not exists Event(
     Texts varchar(100),
     EValue varchar(100),
 	Resources VARCHAR(100),
-    primary key (id)
+    primary key (ID)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8; 
  

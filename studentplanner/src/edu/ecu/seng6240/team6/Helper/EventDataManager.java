@@ -15,9 +15,9 @@ public class EventDataManager {
 	private static final String INSERT_EVENT_DAIPLOT="INSERT INTO Event(UserID,IsOwner,StartTime,EndTime,Texts,EValue, Resources)"
 			+ "	VALUES (?,?,?,?,?,?,?)";
 
-	private static final String INSERT_EVENT="INSERT INTO Event(UserID,Title,DateStr,TimeStr,Address,Tag) VALUES (?,?,?,?,?,?)";
+//	private static final String INSERT_EVENT="INSERT INTO Event(UserID,Title,DateStr,TimeStr,Address,Tag) VALUES (?,?,?,?,?,?)";
 	private static final String DELETE_EVENT_BY_ID="DELETE FROM Event WHERE id=%s"; 
-	private static final String SELECT_EVENT_BY_TAG="SELECT * FROM Event WHERE UserID=? AND Tag=?";
+//	private static final String SELECT_EVENT_BY_TAG="SELECT * FROM Event WHERE UserID=? AND Tag=?";
 	private static final String UPDATE_EVENT_BY_ID="UPDATE Event SET Title=?, DateStr=?, TimeStr=?, Address=?, Tag=? "+
 											 "WHERE id=?";
 	private static final String SELECT_ALL_EVENTS_FOR_USER="SELECT * FROM Event WHERE UserID=?";

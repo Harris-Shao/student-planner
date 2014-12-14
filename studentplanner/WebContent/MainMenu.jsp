@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
-    pageEncoding="US-ASCII"%>
-    <%@ page import="java.util.List" %>
-<%@ page import="edu.ecu.seng6240.team6.models.*, edu.ecu.seng6240.team6.Helper.*" %>
-<%@ page import="com.google.gson.*" %>
+	pageEncoding="US-ASCII"%>
+<%@ page import="java.util.List"%>
+<%@ page
+	import="edu.ecu.seng6240.team6.models.*, edu.ecu.seng6240.team6.Helper.*"%>
+<%@ page import="com.google.gson.*"%>
 <% 
 	SessionManager sessionManager = new SessionManager(request);
 	JsonArray events = null;
@@ -15,15 +16,12 @@
 	else 
 	{
 		user = sessionManager.getUser();
-		System.out.println(user.getId());
 
 		if (user.getId() == -1) {
 			System.out.println("= -1");
 			user = UserDataManager.getStudentByUserName(user.getUserName());
-			System.out.println(user.getUserName());
 			sessionManager.setUser(user);
 			userID = user.getId();
-			System.out.println(userID);
 		}
 		List<Event> eventList = EventDataManager.getAllUserEvents(user.getId());
 		events = new JsonArray();
@@ -34,44 +32,72 @@
 	}
 	if (render){
 %>
- 
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-    <script src="js/daypilot-all.min.js" type="text/javascript"></script>
-    <script src="js/daypilot-modal-2.1.js" type="text/javascript"></script> 
-    <link type="text/css" rel="stylesheet" href="css/calendar_green.css" />
-    <link type="text/css" rel="stylesheet" href="css/calendar_transparent.css" />  
-    <link type="text/css" rel="stylesheet" href="css/calendar_white.css" />     
+<title></title>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="js/daypilot-all.min.js" type="text/javascript"></script>
+<script src="js/daypilot-modal-2.1.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href="css/calendar_green.css" />
+<link type="text/css" rel="stylesheet"
+	href="css/calendar_transparent.css" />
+<link type="text/css" rel="stylesheet" href="css/calendar_white.css" />
+<style>
+.test
+{
+	color:red;
+}
+.ui-dialog{
+background:grey;
+}
+
+.space {
+	margin-top:20px;
+	margin-bottom:20px;
+}
+</style>
+
+
 </head>
 <body>
-	<button onClick="window.location='/login.jsp;'"><h2>logout</h2></button>
-    <!-- CSS THEME MENU -->
+	
+	<div style="float:right; margin-bottom:10px;">
+		<span>Logged in as <label style="color:green;font-weight:bold"><%=user.getUserName()%></label></span>
+		<button onClick="window.location='/login.jsp'" style="margin-bottom:20px">
+			<span style="font-weight:bold;font-size:medium;color:lightblue">logout</span>
+		</button>
+	</div>
+	
+	
+
+	
+	<!-- CSS THEME MENU -->
 
 
-    <div class="space">
-        CSS Theme:
-        <select id="theme">
-            <option value="calendar_default">Default</option>
-            <option value="calendar_green">Green</option>
-            <option value="calendar_transparent">Transparent</option>
-            <option value="calendar_white">White</option>
-        </select>
-    </div>
+	<div class="space">
+		CSS Theme: <select id="theme">
+			<option value="calendar_default">Default</option>
+			<option value="calendar_green">Green</option>
+			<option value="calendar_transparent">Transparent</option>
+			<option value="calendar_white">White</option>
+		</select>
+	</div>
 
-    <div style="float:left; width: 160px;">
-        <div id="nav"></div>
-    </div>
-    <div style="margin-left: 160px;">
-        <div id="dp"></div>
-    </div>
+	<div style="float: left; width: 160px;">
+		<div id="nav"></div>
+	</div>
+	<div style="margin-left: 160px;">
+		<div id="dp"></div>
+	</div>
+		
 
-    <script type="text/javascript">
+	<script type="text/javascript">
 		var eventList = <%= events %>;
 		var userID = <%= user.getId() %>;
-		console.log(userID);
          $(document).ready(function ($) {
             $("#theme").change(function (e) {
                 dp.theme = this.value;
@@ -124,7 +150,6 @@
 	        for (var i = 0 ; i < eventss.length; i++){
 	        	var eve = eventss[i];
 	        	eve = {data:eve};
-	        	console.log(eve);
 	        	var e = new DayPilot.Event({start:new DayPilot.Date(eve.data.start), end:(new DayPilot.Date(eve.data.end)), value: eve.data.value, text: eve.data.text, resource:eve.data.resources, id:eve.data.id});
 	        	dpcevents.add(e);
 	        }
@@ -136,7 +161,7 @@
 
         dp.contextMenu = new DayPilot.Menu({
             items: [
-            { text: "Share", onclick: function () { user = prompt("Share event with: ", "Email Address");console.log(this.source); shareEvent(this.source.data, user);}  },
+            { text: "Share", onclick: function () { user = prompt("Share event with: ", "Email Address or Username");console.log(this.source); shareEvent(this.source.data, user);}  },
             { text: "Show event ID", onclick: function () { alert("Event value: " + this.source.value()); } },
             { text: "Show event text", onclick: function () { alert("Event text: " + this.source.text()); } },
             { text: "Show event start", onclick: function () { alert("Event start: " + this.source.start().toStringSortable()); } },
@@ -152,7 +177,6 @@
         // on-click; use drag to stretch event. Can move event around.
 
         dp.onTimeRangeSelected = function (args) {  
-        	console.log(args);
             var name = prompt("New event name:", "Event");
             dp.clearSelection();
             if (!name) return;
@@ -166,9 +190,7 @@
             dp.events.add(e);
             //call back end service
             addEvent(e);
-      
-         	console.log(e);
-            
+                  
             dp.message("Created");
         };
         
@@ -196,13 +218,11 @@
 				dataType:"json",
 				success : function(data) 
 				{
-						console.log()
 						window.location = "/MainMenu.jsp";
 	
 				},
 				error : function(data) 
 				{
-					console.log(data);
 					if (data.responseJSON && data.responseJSON.errors) {
 						alert(data.responseJSON.errors)
 					}
@@ -230,7 +250,6 @@
 				},
 				error : function(data) 
 				{
-					console.log(data);
 					if (data.responseJSON.errors) {
 						alert(data.responseJSON.errors)
 					}

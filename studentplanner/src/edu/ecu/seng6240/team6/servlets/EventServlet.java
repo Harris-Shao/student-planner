@@ -20,10 +20,8 @@ import com.google.gson.JsonParser;
 
 import edu.ecu.seng6240.team6.Helper.EventDataManager;
 import edu.ecu.seng6240.team6.Helper.RequestHelper;
-import edu.ecu.seng6240.team6.Helper.SessionManager;
 import edu.ecu.seng6240.team6.Helper.UserDataManager;
 import edu.ecu.seng6240.team6.models.Event;
-import edu.ecu.seng6240.team6.models.Student;
 import edu.ecu.seng6240.team6.models.User;
 
 /**
@@ -56,11 +54,7 @@ public class EventServlet extends HttpServlet {
 			if (action.equals("add")){
 				
 				JsonObject dataObj = (new JsonParser().parse(RequestHelper.getDataString(request))).getAsJsonObject();
-				System.out.println(dataObj);
-				Student student = null;
 				Event event = new Event(dataObj.get("event").getAsJsonObject());
-				String username = dataObj.has("username")?dataObj.get("username").getAsString():null;
-				String email = dataObj.has("email")?dataObj.get("email").getAsString():null;
 				event.setOwner(true);
 				if (EventDataManager.insertDAIEvent(event)) {
 					responseCode = Response.SC_OK;
@@ -72,8 +66,6 @@ public class EventServlet extends HttpServlet {
 			}
 			else if (action.equals("share")){
 				JsonObject dataObj = (new JsonParser().parse(RequestHelper.getDataString(request))).getAsJsonObject();
-				System.out.println(dataObj);
-				Student student = null;
 				Event event = new Event(dataObj.get("event").getAsJsonObject());
 				String username = dataObj.has("username")?dataObj.get("username").getAsString():null;
 				String email = dataObj.has("email")?dataObj.get("email").getAsString():null;
@@ -119,12 +111,6 @@ public class EventServlet extends HttpServlet {
 				}
 			}
 			else if (action.equals("getAll")){
-				List<User> users = UserDataManager.getAllUser();
-				System.out.println(users.size());
-				for (User user:users)
-				{
-					System.out.println(user.getFirstName());
-				}
 				responseCode= Response.SC_OK;
 			}
 			else {
@@ -134,7 +120,6 @@ public class EventServlet extends HttpServlet {
 			
 		}
 		response.setStatus(responseCode);
-		System.out.println(responseCode);
 		JsonArray errors= (JsonArray) new Gson().toJsonTree(errorList);
 		
 		JsonObject responseObject = new JsonObject();

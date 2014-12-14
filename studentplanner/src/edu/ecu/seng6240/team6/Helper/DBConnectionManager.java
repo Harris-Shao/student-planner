@@ -1,7 +1,6 @@
 package edu.ecu.seng6240.team6.Helper;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -46,7 +45,6 @@ public class DBConnectionManager {
 		String password= connectionProps.getProperty(PASS_WORD);		
 		String testdb="StudentPlanner";
 		String url = "jdbc:mysql://" + server + ":" + port + "/" + testdb+"?relaxAutoCommit=true";
-		System.out.println(url);
 		MysqlDataSource mysqlDS = new MysqlDataSource();
 		mysqlDS.setURL(url);
 		

@@ -21,7 +21,6 @@ import com.google.gson.JsonParser;
 import edu.ecu.seng6240.team6.Helper.RequestHelper;
 import edu.ecu.seng6240.team6.Helper.SessionManager;
 import edu.ecu.seng6240.team6.Helper.UserDataManager;
-import edu.ecu.seng6240.team6.models.Student;
 import edu.ecu.seng6240.team6.models.User;
 
 /**
@@ -31,11 +30,6 @@ import edu.ecu.seng6240.team6.models.User;
 public class UserManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-	public UserManagementServlet()
-	{
-		//empty constructor. Utilized by RegistrationServlet to create a new
-		//instance of this class, and handle request for adding a user...
-	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		this.doPost(request, response);
@@ -54,8 +48,7 @@ public class UserManagementServlet extends HttpServlet {
 			if (action.equals("add")){
 				
 				JsonObject dataObj = (new JsonParser().parse(RequestHelper.getDataString(request))).getAsJsonObject();
-				System.out.println(dataObj);
-				Student student = null;
+				User student = null;
 				String userName = dataObj.get("username").getAsString();
 				String firstName = dataObj.get("firstname").getAsString();
 				String lastName = dataObj.get("lastname").getAsString();
@@ -71,7 +64,7 @@ public class UserManagementServlet extends HttpServlet {
 						//correct answer
 						if ( userName != null && email != null) {
 							//valid user credentials
-							student = new Student();
+							student = new User();
 							student.setFirstName(firstName);
 							student.setLastName(lastName);
 							student.setPassword(password1.trim());
@@ -102,23 +95,53 @@ public class UserManagementServlet extends HttpServlet {
 					errorList.add("password problems");
 				}
 			}
-			else if (action.equals("update")){
-				Student student = null;
-				String dataString = RequestHelper.getDataString(request);
-				
-				if (dataString != null) {
-					student = new Gson().fromJson(dataString, Student.class);
-					boolean updateSuccess = UserDataManager.update(student);
-					if (updateSuccess)
-					{
-						responseCode  = Response.SC_OK;
+			else if (action.equals("updatePassword")){
+								
+				JsonObject dataObj = (new JsonParser().parse(RequestHelper.getDataString(request))).getAsJsonObject();
+				String userName = dataObj.get("username").getAsString();
+				String password1 = dataObj.get("password1").getAsString();
+				String password2 = dataObj.get("password2").getAsString();
+				String value = dataObj.get("value").getAsString();
+				String answer = dataObj.get("answer").getAsString();
+				String email = dataObj.get("email").getAsString();
+				if (password1 != null && password2 != null && password1.trim().length() != 0 
+						&& password2.trim().length() != 0 && password1.trim().equals(password2.trim()) ){
+					//valid password, good, move one
+					if (answer != null && answer.trim().equals(value)) {
+						//correct answer
+						if ( userName != null && email != null) {
+							//valid user credentials
+							boolean hasStudent = UserDataManager.hasUser(userName, email);
+							
+							if (hasStudent) {
+								
+								boolean updateStudentPassword = UserDataManager.updatePassword(email, password1);
+								if (updateStudentPassword)
+								{
+									responseCode = Response.SC_OK;
+								}
+								else
+								{
+									errorList.add("update DB error: failed to store password..try again");
+								}
+
+							}
+							else{
+								errorList.add("update DB error: no user with username and email");
+							}
+						}
+						else {
+							errorList.add("username or email null");
+						}
+						
 					}
-					else {
-						errorList.add("update student error");
+					else 
+					{
+						errorList.add("math incorrect!");
 					}
 				}
-				else {
-					errorList.add("invalid request");
+				else{
+					errorList.add("password problems");
 				}
 			}
 			else if (action.equals("delete")){
@@ -132,12 +155,6 @@ public class UserManagementServlet extends HttpServlet {
 				}
 			}
 			else if (action.equals("getAll")){
-				List<User> users = UserDataManager.getAllUser();
-				System.out.println(users.size());
-				for (User user:users)
-				{
-					System.out.println(user.getFirstName());
-				}
 				responseCode= Response.SC_OK;
 			}
 			else {

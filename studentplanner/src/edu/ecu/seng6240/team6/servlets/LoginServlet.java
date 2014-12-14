@@ -1,8 +1,9 @@
 package edu.ecu.seng6240.team6.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,11 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.connector.Response;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import edu.ecu.seng6240.team6.Helper.RequestHelper;
 import edu.ecu.seng6240.team6.Helper.SessionManager;
 import edu.ecu.seng6240.team6.Helper.UserDataManager;
-import edu.ecu.seng6240.team6.models.Student;
 import edu.ecu.seng6240.team6.models.User;
 
 /**
@@ -38,8 +42,8 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<String> errorList = new ArrayList<>();
 		int responseCode = Response.SC_BAD_REQUEST;
-		boolean retrieveSuccess=false;
 		String action = request.getParameter("action");
 		if (action == null) 
 		{
@@ -53,16 +57,20 @@ public class LoginServlet extends HttpServlet {
 				responseCode=Response.SC_OK;
 				
 				//retrieve the userNameString from the request
-				String userNameString = request.getParameter("userName");
-				String userEmail = request.getParameter("userEmail");
-				String password = request.getParameter("password");
+				
+				JsonObject dataObj = (new JsonParser().parse(RequestHelper.getDataString(request))).getAsJsonObject();
+				String userName = dataObj.get("username").getAsString();
+				String userEmail = dataObj.get("username").getAsString();
+				String password = dataObj.get("password").getAsString();
+				
+				
 				User user = null;
 				if (userEmail != null) {
 					user = UserDataManager.getStudentByUserNameOrEmailAndPassword(userEmail, password);
 				}
 				if (user == null) {
-					if (userNameString != null) {
-						user = UserDataManager.getStudentByUserNameOrEmailAndPassword(userNameString, password);
+					if (userName != null) {
+						user = UserDataManager.getStudentByUserNameOrEmailAndPassword(userName, password);
 					}
 				}
 
@@ -71,12 +79,12 @@ public class LoginServlet extends HttpServlet {
 					//given user exists... so start a new session
 						 SessionManager beginSession=new SessionManager(request);
 						 beginSession.setUser(user);
-						 retrieveSuccess=true;
+						 responseCode = Response.SC_OK;
 				}
 				else
 				{
 						 //user with given username doesn't exist
-						 retrieveSuccess=false;
+						 responseCode = Response.SC_FORBIDDEN;
 				}
 									
 			}
@@ -91,19 +99,15 @@ public class LoginServlet extends HttpServlet {
 		}//end if(action == null)
 		
 		response.setStatus(responseCode);
+				
+		JsonArray errors= (JsonArray) new Gson().toJsonTree(errorList);
 		
-		RequestDispatcher rd=null;
-		
-		if (responseCode != 200) {
-			rd = request.getRequestDispatcher("/BadRequest.jsp");
-		}
-		else {
-			if(retrieveSuccess)
-				rd = request.getRequestDispatcher("/MainMenu.jsp");
-			else
-				rd=  request.getRequestDispatcher("/NotAuthorized.jsp");
-		}
-		rd.forward(request, response);	
+		JsonObject responseObject = new JsonObject();
+		responseObject.addProperty("status",response.getStatus());
+		responseObject.add("errors", errors);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        response.getWriter().write(gson.toJson(responseObject));
+	
 		
 	}//end method
 }
