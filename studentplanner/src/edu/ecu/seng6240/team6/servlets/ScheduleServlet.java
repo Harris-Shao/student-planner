@@ -28,7 +28,7 @@ import edu.ecu.seng6240.team6.models.User;
  * Servlet implementation class EventServlet
  */
 @WebServlet("/EventServlet")
-public class EventServlet extends HttpServlet {
+public class ScheduleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**

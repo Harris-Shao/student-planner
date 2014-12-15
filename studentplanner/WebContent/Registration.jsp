@@ -112,7 +112,7 @@ body {
 	<div id="login-overlay" class="modal-dialog modal-content">
 		<div class="modal-header">
 			<h4 class="modal-title" id="myModalLabel" style="color: black">Create
-				a new account</h4>
+				a new account <span style="font-weight:small">(<a href="/login.jsp">Login </a>if you have an account)</span></h4>
 		</div>
 		<div class="modal-body row col-sm-6 col-sm-offset-3 well">
 			<form id="registrationForm" novalidate="novalidate">

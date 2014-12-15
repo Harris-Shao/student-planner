@@ -118,7 +118,7 @@ body {
 <body>
 	<div id="login-overlay" class="modal-dialog modal-content">
 		<div class="modal-header">
-			<h4 class="modal-title" id="myModalLabel" style="color: black">Go to <a href="/login.jsp">Login </a>if you remeber your password</h4>
+			<h4 class="modal-title" id="myModalLabel" style="color: black">Go to <a href="/login.jsp">Login </a>if you remember your password</h4>
 			<hr/>
 			<h4 class="modal-title" id="myModalLabel" style="color: black">Reset your password</h4>
 		</div>
